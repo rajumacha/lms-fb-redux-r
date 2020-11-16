@@ -1,0 +1,31 @@
+.new-lead {
+    max-width: 300px;
+}
+
+.country-code {
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    .code {
+        max-width: 40px;
+    }
+    input {
+        width: 100px;
+    }
+}
+
+.show {
+    display: none;
+}
+
+.showMessage {
+    margin: auto;
+    max-width: 500px;
+    background-color: #eee;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    font-size: 1.5em;
+    text-align: center;
+    letter-spacing: 2px;
+}

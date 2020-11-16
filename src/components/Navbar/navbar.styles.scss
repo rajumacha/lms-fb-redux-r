@@ -1,0 +1,23 @@
+ $myColor: #bed860;
+
+ 
+ .logo {
+    float:left;
+    font-size: 2.5em;
+    margin: auto 8px;
+    color: #f3f3f3;
+}
+
+.nav-items {
+    .nav-item {
+        font-size: 1.5em;;
+    }
+
+    .active {
+        background-color: #ffdddd;
+    }
+}
+
+.nav-items .btn-small {
+    font-size: 1em;
+}
