@@ -22,13 +22,15 @@ function Navbar({ curUser, loginStatus, setLoginStatus, setCurUser }) {
 					{loginStatus ? (
 						<>
 							<li>
-								<Link to="/list-leads" className="nav-item btn-small">
-									<i className="material-icons small left">contacts</i>Leads
+								<Link to="/list-customers" className="nav-item btn-small">
+									<i className="material-icons small left">contacts</i>
+									{labels.CUSTOMERS}
 								</Link>
 							</li>
 							<li>
-								<Link to="/add-lead" className="nav-item btn-small">
-									<i className="material-icons left">add</i>Lead
+								<Link to="/add-customer" className="nav-item btn-small">
+									<i className="material-icons left">add</i>
+									{labels.CUSTOMER}
 								</Link>
 							</li>
 							<Link to="" onClick={signout}>

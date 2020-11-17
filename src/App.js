@@ -5,8 +5,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import SignIn from "./components/SignIn/SignIn";
 import Error from "./components/Error/Error";
-import AddLead from "./components/Lead/AddLead/AddLead";
-import ListLeads from "./components/Lead/ListLeads/ListLeads";
+import AddCustomer from "./components/Customer/AddCustomer/AddCustomer";
+import ListCustomers from "./components/Customer/ListCustomers/ListCustomers";
 import { getUsers } from "./redux/actions/UsersAction";
 
 class App extends Component {
@@ -14,15 +14,25 @@ class App extends Component {
 		this.props.getUsers();
 	}
 	render() {
-		console.log(this.props.state);
+		console.log(this.props);
 		return (
 			<div>
 				<Navbar />
 				<Switch>
 					<Route exact path="/" component={Home} />
-					<Route path="/add-lead" component={AddLead} />
+					<Route
+						path="/add-customer"
+						render={() =>
+							this.props.loginStatus ? <AddCustomer /> : <Error />
+						}
+					/>
 					<Route path="/sign-in" component={SignIn} />
-					<Route path="/list-leads" component={ListLeads} />
+					<Route
+						path="/list-customers"
+						render={() =>
+							this.props.loginStatus ? <ListCustomers /> : <Error />
+						}
+					/>
 					<Route component={Error} />
 				</Switch>
 			</div>
@@ -38,10 +48,10 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const mapStateToProps = (state) => {
-	console.log(state);
+const mapStateToProps = ({ loginStatus }) => {
+	console.log(loginStatus);
 	return {
-		state,
+		loginStatus,
 	};
 };
 

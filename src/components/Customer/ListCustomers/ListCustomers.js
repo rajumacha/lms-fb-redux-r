@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { LeadsContext } from "../../../context/Leads";
-import ShowLead from "../ShowLead/ShowLead";
+import ShowCustomer from "../ShowCustomer/ShowCustomer";
 
 export default function ListLeads() {
 	const { leads } = useContext(LeadsContext);
@@ -10,7 +10,7 @@ export default function ListLeads() {
 			<h3 className="teal-text draken-4 center">{leads.length}</h3>
 			<ul className="collection">
 				{leads.map((lead) => (
-					<ShowLead key={lead.id} lead={{ ...lead }} />
+					<ShowCustomer key={lead.id} lead={{ ...lead }} />
 				))}
 			</ul>
 		</div>

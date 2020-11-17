@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ShowLead({ lead }) {
+export default function ShowCustomer({ lead }) {
 	const {
 		id,
 		name,

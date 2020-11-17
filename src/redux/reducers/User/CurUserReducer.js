@@ -1,6 +1,6 @@
 import { Types } from "../../Types";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = null; //{name,email} / null
 
 const CurUserReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {

@@ -2,4 +2,5 @@ export const Types = {
 	GET_USERS: "GET_USERS",
 	CUR_USER: "CUR_USER",
 	LOGIN_STATUS: "LOGIN_STATUS",
+	ADD_CUSTOMER: "ADD_CUTOMER",
 };

@@ -1,30 +1,25 @@
 import React, { Component } from "react";
-import { LeadsContext } from "../../../context/Leads";
-import { UsersContext } from "../../../context/Users";
-import "./add-lead-styles.scss";
+import { connect } from "react-redux";
+import { addCustomerAction } from "../../../redux/actions/CustomersAction";
+import { labels } from "../../../utils/labels";
 
-export default class AddLead extends Component {
-	static contextType = LeadsContext;
+import "./add-customer-styles.scss";
+
+class AddCustomer extends Component {
 	constructor() {
 		super();
 		this.state = {
 			name: "",
 			shopName: "",
 			mobile: "",
-			gender: "male",
+			gender: "",
 			location: "",
-			interested: "yes",
+			interested: "",
 			followupDate: "",
 			comments: "",
 			showfollowupDate: false,
 			alertMessage: "",
-			leadsCtxt: null,
 		};
-	}
-
-	componentDidMount() {
-		const value = this.context;
-		this.setState({ leadsCtxt: value });
 	}
 
 	handleChange = (e) => {
@@ -32,15 +27,18 @@ export default class AddLead extends Component {
 		name =
 			name === "group1" ? "gender" : name === "group2" ? "interested" : name;
 
-		this.setState((state) => {
-			if (name === "interested" && value === "followup") {
+		this.setState(() => {
+			if (
+				(name === "interested" && value === "followup") ||
+				name === "followupDate"
+			) {
 				return { [name]: value, showfollowupDate: true };
 			}
 			return { [name]: value, showfollowupDate: false };
 		});
 	};
 
-	handleAdd = async (e) => {
+	handleAdd = (e) => {
 		e.preventDefault();
 		const {
 			name,
@@ -52,21 +50,21 @@ export default class AddLead extends Component {
 			followupDate,
 			comments,
 		} = this.state;
-		try {
-			this.state.leadsCtxt.setLead({
-				name,
-				shopName,
-				mobile,
-				location,
-				gender,
-				interested,
-				followupDate,
-				comments,
-			});
-			this.showMessage("Lead Added");
-		} catch (err) {
-			console.log(err);
-		}
+
+		//add customer
+		this.props.addCustomerAction({
+			name,
+			shopName,
+			mobile,
+			location,
+			gender,
+			interested,
+			followupDate,
+			comments,
+			addedBy: this.props.curUser,
+		});
+		//show alert message
+		this.showMessage("New Customer is added..");
 	};
 
 	showMessage = (message) => {
@@ -82,9 +80,9 @@ export default class AddLead extends Component {
 				name: "",
 				shopName: "",
 				mobile: "",
-				gender: "male",
+				gender: "",
 				location: "",
-				interested: "yes",
+				interested: "",
 				followupDate: "",
 				comments: "",
 				showfollowupDate: false,
@@ -104,14 +102,15 @@ export default class AddLead extends Component {
 			showfollowupDate,
 			alertMessage,
 		} = this.state;
-		console.log(this.state.leadsCtxt);
 		return (
-			<div className="container new-lead">
+			<div className="container new-customer">
 				{alertMessage && <div className="showMessage">{alertMessage}</div>}
-				<h4 className="teal-text darken-2 center-align">New Lead</h4>
+				<h4 className="teal-text darken-2 center-align">
+					{labels.NEW_CUSTOMER}
+				</h4>
 				<form className="card" onSubmit={this.handleAdd}>
 					<div className="card-content">
-						<div className="lead-info">
+						<div className="customer-info">
 							<div>
 								<label htmlFor="name">
 									Name:
@@ -157,7 +156,7 @@ export default class AddLead extends Component {
 								<label>Gender: </label>
 								<label>
 									<input
-										name="group1"
+										name="gender"
 										type="radio"
 										className="with-gap"
 										value="male"
@@ -167,7 +166,7 @@ export default class AddLead extends Component {
 								</label>
 								<label>
 									<input
-										name="group1"
+										name="gender"
 										type="radio"
 										className="with-gap"
 										value="female"
@@ -252,3 +251,17 @@ export default class AddLead extends Component {
 		);
 	}
 }
+
+const mapStateToProps = ({ curUser }) => {
+	return { curUser };
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addCustomerAction: (customer) => {
+			dispatch(addCustomerAction(customer));
+		},
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddCustomer);
