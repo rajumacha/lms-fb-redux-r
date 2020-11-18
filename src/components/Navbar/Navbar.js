@@ -16,7 +16,7 @@ function Navbar({ curUser, loginStatus, setLoginStatus, setCurUser }) {
 		<nav>
 			<div className="nav-wrapper">
 				<Link to="/" className="logo">
-					Logo
+					<i className="large material-icons">home</i>
 				</Link>
 				<ul className="nav-items">
 					{loginStatus ? (

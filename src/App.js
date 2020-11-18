@@ -8,6 +8,8 @@ import Error from "./components/Error/Error";
 import AddCustomer from "./components/Customer/AddCustomer/AddCustomer";
 import ListCustomers from "./components/Customer/ListCustomers/ListCustomers";
 import { getUsers } from "./redux/actions/UsersAction";
+import SideNav from "./components/SideNav/SideNav";
+import "./App.css";
 
 class App extends Component {
 	componentDidMount() {
@@ -16,25 +18,32 @@ class App extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<div>
-				<Navbar />
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route
-						path="/add-customer"
-						render={() =>
-							this.props.loginStatus ? <AddCustomer /> : <Error />
-						}
-					/>
-					<Route path="/sign-in" component={SignIn} />
-					<Route
-						path="/list-customers"
-						render={() =>
-							this.props.loginStatus ? <ListCustomers /> : <Error />
-						}
-					/>
-					<Route component={Error} />
-				</Switch>
+			<div className="grid-container">
+				<div className="topbar-nav">
+					<Navbar />
+				</div>
+				<div className="sidebar-nav">
+					<SideNav />
+				</div>
+				<div class="content">
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route
+							path="/add-customer"
+							render={() =>
+								this.props.loginStatus ? <AddCustomer /> : <Error />
+							}
+						/>
+						<Route path="/sign-in" component={SignIn} />
+						<Route
+							path="/list-customers"
+							render={() =>
+								this.props.loginStatus ? <ListCustomers /> : <Error />
+							}
+						/>
+						<Route component={Error} />
+					</Switch>
+				</div>
 			</div>
 		);
 	}
