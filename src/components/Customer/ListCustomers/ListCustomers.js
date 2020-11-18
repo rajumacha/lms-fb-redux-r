@@ -1,18 +1,36 @@
-import React, { useContext } from "react";
-import { LeadsContext } from "../../../context/Leads";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { getCustomersAction } from "../../../redux/actions/CustomersAction";
 import ShowCustomer from "../ShowCustomer/ShowCustomer";
 
-export default function ListLeads() {
-	const { leads } = useContext(LeadsContext);
+function ListCustomers({ getCustomersAction, customers }) {
+	useEffect(() => {
+		getCustomersAction();
+	}, []);
 
 	return (
 		<div className="container">
-			<h3 className="teal-text draken-4 center">{leads.length}</h3>
+			<h3 className="teal-text draken-4 center">{customers.length}</h3>
 			<ul className="collection">
-				{leads.map((lead) => (
-					<ShowCustomer key={lead.id} lead={{ ...lead }} />
+				{customers.map((customer) => (
+					<ShowCustomer key={customer.id} lead={{ ...customer }} />
 				))}
 			</ul>
 		</div>
 	);
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getCustomersAction: () => dispatch(getCustomersAction()),
+	};
+};
+
+const mapStateToProps = ({ customers }) => {
+	console.log(customers);
+	return {
+		customers,
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListCustomers);

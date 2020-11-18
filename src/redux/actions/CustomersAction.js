@@ -1,5 +1,5 @@
 import { Types } from "../Types";
-import { addCustomer } from "../../models/AddCustomer";
+import { addCustomer, getCustomers } from "../../models/Customer";
 
 export const addCustomerAction = (customer) => {
 	return async (dispatch) => {
@@ -9,5 +9,13 @@ export const addCustomerAction = (customer) => {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+};
+
+export const getCustomersAction = () => {
+	return async (dispatch) => {
+		let customers = await getCustomers();
+		console.log(customers);
+		dispatch({ type: Types.GET_CUSTOMERS, payload: customers });
 	};
 };

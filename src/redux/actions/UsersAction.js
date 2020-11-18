@@ -13,10 +13,11 @@ export const getUsers = () => {
 	};
 };
 
+//calls from sing-in page
 export const setCurUser = (user) => {
 	return {
 		type: Types.CUR_USER,
-		payload: user, //{name,email}/null
+		payload: user, //{name,role}/null
 	};
 };
 
