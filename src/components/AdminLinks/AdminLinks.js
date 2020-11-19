@@ -17,6 +17,11 @@ export default function AdminLinks() {
 					</Link>
 				</li>
 				<li className="sidebar-item">
+					<Link to="/add-area" className="white-text">
+						<i className="material-icons left">add</i> Area
+					</Link>
+				</li>
+				<li className="sidebar-item">
 					<Link to="/list-customers" className="white-text">
 						<i className="material-icons small left">contacts</i> Customers
 					</Link>

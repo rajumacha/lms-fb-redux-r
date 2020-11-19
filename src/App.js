@@ -10,6 +10,7 @@ import ListCustomers from "./components/Customer/ListCustomers/ListCustomers";
 import { getUsers } from "./redux/actions/UsersAction";
 import SideNav from "./components/SideNav/SideNav";
 import "./App.css";
+import Area from "./components/Admin/Area/Area";
 
 class App extends Component {
 	componentDidMount() {
@@ -28,19 +29,14 @@ class App extends Component {
 				<div class="content">
 					<Switch>
 						<Route exact path="/" component={Home} />
-						<Route
-							path="/add-customer"
-							render={() =>
-								this.props.loginStatus ? <AddCustomer /> : <Error />
-							}
-						/>
 						<Route path="/sign-in" component={SignIn} />
-						<Route
-							path="/list-customers"
-							render={() =>
-								this.props.loginStatus ? <ListCustomers /> : <Error />
-							}
-						/>
+						{this.props.loginStatus && (
+							<>
+								<Route path="/add-customer" component={AddCustomer} />
+								<Route path="/list-customers" component={ListCustomers} />
+								<Route path="/add-area" component={Area} />
+							</>
+						)}
 						<Route component={Error} />
 					</Switch>
 				</div>
