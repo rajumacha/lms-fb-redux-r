@@ -7,6 +7,7 @@ import {
 import { labels } from "../../../utils/labels";
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import Label from "../../Label/Label";
+import "./area.styles.scss";
 
 function Area({ addAreaAction, getAreasAction, areas }) {
 	const [area, setArea] = useState("");
@@ -32,7 +33,7 @@ function Area({ addAreaAction, getAreasAction, areas }) {
 	};
 
 	return (
-		<div className="container signin">
+		<div className="container new-area">
 			<Label label="New Area" />
 			<div>{error ? <ErrorMsg message={error} /> : null}</div>
 			<form onSubmit={handleSubmit}>

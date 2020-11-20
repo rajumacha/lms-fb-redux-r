@@ -2,8 +2,10 @@ import { combineReducers } from "redux";
 import UsersReducer from "./User/UsersReducer";
 import CurUserReducer from "./User/CurUserReducer";
 import LoginStatusReducer from "./User/LoginStatusReducer";
-import CustomersReducer from "./Customer/CustomersReducer";
-import AreasReducer from "./Area/AreasReducer";
+import CustomersReducer from "./CustomersReducer";
+import AreasReducer from "./AreasReducer";
+import PermissionsReducer from "./PermissionsReducer";
+import RolesReducer from "./RolesReducer";
 
 const rootReducer = combineReducers({
 	users: UsersReducer, //[{name,password,role}]
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
 	loginStatus: LoginStatusReducer, //true/false
 	customers: CustomersReducer, //[]
 	areas: AreasReducer, //[{area,city,pincode}]
+	permissions: PermissionsReducer, //[{name}]
+	roles: RolesReducer, //[{name, permissions: []}]
 });
 
 export default rootReducer;

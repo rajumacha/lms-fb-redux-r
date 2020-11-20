@@ -8,4 +8,8 @@ export const labels = {
 	LMS_USER: "lms-user",
 	NEW_AREA: "New Area",
 	ADD_AREA: "Add Area",
+	NEW_PERMISSION: "New Permission",
+	ADD_PERMISSION: "Add Permission",
+	NEW_ROLE: "New Role",
+	ADD_ROLE: "Add Role",
 };

@@ -1,0 +1,26 @@
+.new-role {
+    max-width: 300px;
+}
+.label-text {
+    display: block;
+    text-align: left;
+}
+
+select {
+    display: block;
+}
+
+.permissions {
+    display: grid;
+    grid-template-columns: auto auto;
+    max-width: 600px;
+    max-height: 400px;
+    justify-content: space-around;
+}
+
+.permissions p {
+    display: flex;
+    text-transform: capitalize;
+}
+
+

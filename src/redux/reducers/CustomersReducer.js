@@ -1,4 +1,4 @@
-import { Types } from "../../Types";
+import { Types } from "../Types";
 
 const INITIAL_STATE = []; //customers
 

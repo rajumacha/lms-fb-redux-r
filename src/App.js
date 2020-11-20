@@ -11,13 +11,14 @@ import { getUsers } from "./redux/actions/UsersAction";
 import SideNav from "./components/SideNav/SideNav";
 import "./App.css";
 import Area from "./components/Admin/Area/Area";
+import Permission from "./components/Admin/Permission/Permission";
+import Role from "./components/Admin/Role/Role";
 
 class App extends Component {
 	componentDidMount() {
 		this.props.getUsers();
 	}
 	render() {
-		console.log(this.props);
 		return (
 			<div className="grid-container">
 				<div className="topbar-nav">
@@ -35,6 +36,8 @@ class App extends Component {
 								<Route path="/add-customer" component={AddCustomer} />
 								<Route path="/list-customers" component={ListCustomers} />
 								<Route path="/add-area" component={Area} />
+								<Route path="/add-permission" component={Permission} />
+								<Route path="/add-role" component={Role} />
 							</>
 						)}
 						<Route component={Error} />
