@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addCustomerAction } from "../../../redux/actions/CustomersAction";
-import { labels } from "../../../utils/labels";
+import { addCustomerAction } from "../../redux/actions/CustomersAction";
+import { labels } from "../../utils/labels";
 
 import "./add-customer-styles.scss";
 

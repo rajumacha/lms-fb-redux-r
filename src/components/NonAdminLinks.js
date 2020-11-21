@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./non-admin-links-styles.scss";
+import "./styles/non-admin-links-styles.scss";
 
 export default function NonAdminLinks() {
 	return (

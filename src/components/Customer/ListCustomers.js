@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getCustomersAction } from "../../../redux/actions/CustomersAction";
-import ShowCustomer from "../ShowCustomer/ShowCustomer";
+import { getCustomersAction } from "../../redux/actions/CustomersAction";
+import ShowCustomer from "./ShowCustomer";
 
 function ListCustomers({ getCustomersAction, customers }) {
 	useEffect(() => {

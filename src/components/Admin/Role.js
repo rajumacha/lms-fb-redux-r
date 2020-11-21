@@ -1,31 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {
+import { addRoleAction, getRolesAction } from "../../redux/actions/RolesAction";
+import { getPermissionsAction } from "../../redux/actions/PermissionsAction";
+import { labels } from "../../utils/labels";
+import ErrorMsg from "../ErrorMsg";
+import Label from "../Label";
+import "./admin.styles.scss";
+
+function Role({
 	addRoleAction,
 	getRolesAction,
-} from "../../../redux/actions/RolesAction";
-import { labels } from "../../../utils/labels";
-import ErrorMsg from "../../ErrorMsg/ErrorMsg";
-import Label from "../../Label/Label";
-import "./role.styles.scss";
-
-function Role({ addRoleAction, getRolesAction, roles, permissions }) {
+	getPermissionsAction,
+	roles,
+	permissions,
+}) {
 	const [role, setRole] = useState("");
 	const [error, setError] = useState("");
 
 	useEffect(() => {
+		getPermissionsAction();
 		getRolesAction();
 	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addRoleAction({ name: role });
+		let rolePerms = {};
+		permissions.map((p) => {
+			rolePerms[p.name] = e.target[p.name].checked;
+		});
+		addRoleAction({ name: role.toUpperCase(), permissions: rolePerms });
 		setDefaults();
 	};
 
 	const setDefaults = () => {
 		setRole("");
 		setError("");
+	};
+
+	const displayPermmissions = (permissions) => {
+		//{create user: true}
+		let perms = "";
+		if (permissions) {
+			perms = Object.entries(permissions).map(([key, value]) => {
+				if (value) {
+					return <p>{key}</p>;
+				}
+			});
+		}
+		return perms;
 	};
 
 	return (
@@ -51,7 +73,7 @@ function Role({ addRoleAction, getRolesAction, roles, permissions }) {
 						return (
 							<p>
 								<label>
-									<input type="checkbox" />
+									<input type="checkbox" name={permission.name} />
 									<span>{permission.name}</span>
 								</label>
 							</p>
@@ -64,43 +86,32 @@ function Role({ addRoleAction, getRolesAction, roles, permissions }) {
 			</form>
 			<div>
 				{roles.length > 0 && (
-					<>
-						Roles Created : {roles.length}
-						{roles.map((role) => (
-							<div>
-								<span>{role.name}</span>{" "}
-							</div>
-						))}
-					</>
+					<table class="bordered">
+						<thead>
+							<tr>
+								<th>Role</th>
+								<th>permissions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<>
+								Roles Created : {roles.length}
+								{roles.map((role) => (
+									<tr>
+										<td>{role.name}</td>
+										<td>{displayPermmissions(role.permissions)}</td>
+									</tr>
+								))}
+							</>
+						</tbody>
+					</table>
 				)}
-			</div>
-			<div>
-				<table class="bordered">
-					<thead>
-						<tr>
-							<th>Role</th>
-							<th>permissions</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr>
-							<td>Atul</td>
-							<td>2</td>
-						</tr>
-						<tr>
-							<td>Aman</td>
-							<td>4</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	);
 }
 
 const mapStateToProps = ({ roles, permissions }) => {
-	console.log(roles);
 	return {
 		roles,
 		permissions,
@@ -114,6 +125,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		getRolesAction: () => {
 			dispatch(getRolesAction());
+		},
+		getPermissionsAction: () => {
+			dispatch(getPermissionsAction());
 		},
 	};
 };

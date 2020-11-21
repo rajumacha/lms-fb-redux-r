@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import {
 	addPermissionAction,
 	getPermissionsAction,
-} from "../../../redux/actions/PermissionsAction";
-import { labels } from "../../../utils/labels";
-import ErrorMsg from "../../ErrorMsg/ErrorMsg";
-import Label from "../../Label/Label";
-import "./permission.styles.scss";
+} from "../../redux/actions/PermissionsAction";
+import { labels } from "../../utils/labels";
+import ErrorMsg from "../ErrorMsg";
+import Label from "../Label";
+import "./admin.styles.scss";
 
 function Permission({
 	addPermissionAction,
@@ -23,7 +23,7 @@ function Permission({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addPermissionAction({ name: permission });
+		addPermissionAction({ name: permission.toUpperCase() });
 		setDefaults();
 	};
 
@@ -80,7 +80,6 @@ function Permission({
 }
 
 const mapStateToProps = ({ permissions }) => {
-	console.log(permissions);
 	return {
 		permissions,
 	};

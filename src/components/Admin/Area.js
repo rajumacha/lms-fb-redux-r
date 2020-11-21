@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {
-	addAreaAction,
-	getAreasAction,
-} from "../../../redux/actions/AreasAction";
-import { labels } from "../../../utils/labels";
-import ErrorMsg from "../../ErrorMsg/ErrorMsg";
-import Label from "../../Label/Label";
-import "./area.styles.scss";
+import { addAreaAction, getAreasAction } from "../../redux/actions/AreasAction";
+import { labels } from "../../utils/labels";
+import ErrorMsg from "../ErrorMsg";
+import Label from "../Label";
+import "./admin.styles.scss";
 
 function Area({ addAreaAction, getAreasAction, areas }) {
 	const [area, setArea] = useState("");

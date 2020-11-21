@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setCurUser, setLoginStatus } from "../../redux/actions/UsersAction";
+import { setCurUser, setLoginStatus } from "../redux/actions/UsersAction";
 import { Link } from "react-router-dom";
-import { labels } from "../../utils/labels";
+import { labels } from "../utils/labels";
 
-import "./navbar.styles.scss";
+import "./styles/navbar.styles.scss";
 
 function Navbar({ curUser, loginStatus, setLoginStatus, setCurUser }) {
 	const signout = () => {

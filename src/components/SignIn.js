@@ -1,25 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { setCurUser, setLoginStatus } from "../../redux/actions/UsersAction";
-import ErrorMsg from "../ErrorMsg/ErrorMsg";
-import { labels } from "../../utils/labels";
-import "./signin.styles.scss";
+import { setCurUser, setLoginStatus } from "../redux/actions/UsersAction";
+import { getRolesAction } from "../redux/actions/RolesAction";
+import ErrorMsg from "./ErrorMsg";
+import { labels } from "../utils/labels";
+import "./styles/signin.styles.scss";
 
-function SignIn({ history, users, setCurUser, setLoginStatus }) {
+function SignIn({
+	history,
+	users,
+	roles,
+	setCurUser,
+	setLoginStatus,
+	getRolesAction,
+}) {
 	const [name, setName] = useState(null);
 	const [password, setPassword] = useState(null);
 	const [role, setRole] = useState("");
 	const [error, setError] = useState(null);
 
-	const verifyUserCredentials = () => {
-		let usr = users.find((usr) => usr.password === password);
+	useEffect(() => {
+		getRolesAction();
+	}, []);
+
+	const verifyUserCredentials = async () => {
 		let msg = "Credentials Are Not Valid!!!";
 
+		let usr = users.find((usr) => usr.password === password);
+
 		if (usr) {
-			if (usr.name !== name || usr.password !== password || usr.role !== role) {
-				return msg;
-			} else {
+			let userRole = "";
+			let userRef = await usr.role.get();
+			userRole = userRef.data().name;
+			if (usr.name === name && usr.password === password && userRole === role) {
 				return "";
+			} else {
+				return "Credentials Are Not Valid!!!";
 			}
 		} else {
 			return msg;
@@ -28,17 +44,33 @@ function SignIn({ history, users, setCurUser, setLoginStatus }) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-
-		let error = verifyUserCredentials();
-		if (error === "") {
-			setCurUser({ name, role });
-			setLoginStatus(true);
-			history.push("/");
-		} else {
-			setError(error);
-			setCurUser(null);
-		}
+		let error;
+		verifyUserCredentials().then((res) => {
+			error = res;
+			if (error === "") {
+				setCurUser({ name, role });
+				setLoginStatus(true);
+				history.push("/");
+			} else {
+				if (!error) {
+					error = "Credentials Are Not Valid!!!";
+				}
+				setError(error);
+				setCurUser(null);
+			}
+		});
 	}
+
+	function displayRoles() {
+		let rolesOptions = [];
+		if (roles.length > 0) {
+			rolesOptions = roles.map((role) => {
+				return <option value={role.name}>{role.name}</option>;
+			});
+		}
+		return rolesOptions;
+	}
+
 	return (
 		<div className="container signin">
 			<h2 className="center-align indigo-text">{labels.SIGNIN}</h2>
@@ -76,8 +108,7 @@ function SignIn({ history, users, setCurUser, setLoginStatus }) {
 						<option selected disabled hidden>
 							Select Role
 						</option>
-						<option value="lms-user">LmsUser</option>
-						<option value="admin">Admin</option>
+						{displayRoles()}
 					</select>
 				</div>
 				<div className="field">
@@ -88,9 +119,11 @@ function SignIn({ history, users, setCurUser, setLoginStatus }) {
 	);
 }
 
-const mapStateToProps = ({ users }) => {
+const mapStateToProps = ({ users, roles }) => {
+	console.log(users);
 	return {
 		users,
+		roles,
 	};
 };
 
@@ -101,6 +134,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		setLoginStatus: (status) => {
 			dispatch(setLoginStatus(status));
+		},
+		getRolesAction: () => {
+			dispatch(getRolesAction());
 		},
 	};
 };

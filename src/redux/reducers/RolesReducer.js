@@ -1,6 +1,6 @@
 import { Types } from "../Types";
 
-const INITIAL_STATE = []; //[{name, permissions: []}];
+const INITIAL_STATE = []; //[{name, permissions: {name: false, name: true}}];
 
 const RolesReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {

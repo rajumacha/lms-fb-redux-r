@@ -1,14 +1,17 @@
+.new-area {
+    max-width: 300px;
+}
+
+
+.new-permission {
+    max-width: 300px;
+}
+
+
 .new-role {
     max-width: 300px;
 }
-.label-text {
-    display: block;
-    text-align: left;
-}
 
-select {
-    display: block;
-}
 
 .permissions {
     display: grid;
@@ -24,3 +27,11 @@ select {
 }
 
 
+.label-text {
+    display: block;
+    text-align: left;
+}
+
+select {
+    display: block;
+}

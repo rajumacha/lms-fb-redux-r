@@ -1,18 +1,18 @@
 import { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./components/Home/Home";
-import SignIn from "./components/SignIn/SignIn";
-import Error from "./components/Error/Error";
-import AddCustomer from "./components/Customer/AddCustomer/AddCustomer";
-import ListCustomers from "./components/Customer/ListCustomers/ListCustomers";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import SignIn from "./components/SignIn";
+import Error from "./components/Error";
+import AddCustomer from "./components/Customer/AddCustomer";
+import ListCustomers from "./components/Customer/ListCustomers";
 import { getUsers } from "./redux/actions/UsersAction";
-import SideNav from "./components/SideNav/SideNav";
+import SideNav from "./components/SideNav";
 import "./App.css";
-import Area from "./components/Admin/Area/Area";
-import Permission from "./components/Admin/Permission/Permission";
-import Role from "./components/Admin/Role/Role";
+import Area from "./components/Admin/Area";
+import Permission from "./components/Admin/Permission";
+import Role from "./components/Admin/Role";
 
 class App extends Component {
 	componentDidMount() {
@@ -57,7 +57,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = ({ loginStatus }) => {
-	console.log(loginStatus);
 	return {
 		loginStatus,
 	};

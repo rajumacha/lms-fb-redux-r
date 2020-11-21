@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { labels } from "../../utils/labels";
-import AdminLinks from "../AdminLinks/AdminLinks";
-import NonAdminLinks from "../NonAdminLinks/NonAdminLinks";
-import "./sidebar-styles.scss";
+import { labels } from "../utils/labels";
+import AdminLinks from "./AdminLinks";
+import NonAdminLinks from "./NonAdminLinks";
+import "./styles/sidebar-styles.scss";
 
 function SideNav({ role }) {
 	return (
@@ -20,7 +20,6 @@ function SideNav({ role }) {
 }
 
 const mapStateToProps = ({ curUser }) => {
-	console.log(curUser);
 	return { role: curUser ? curUser.role : null };
 };
 
