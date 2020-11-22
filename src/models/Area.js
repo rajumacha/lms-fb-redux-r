@@ -13,7 +13,7 @@ export const getAreas = async () => {
 		let areas = [];
 		let areaRef = await db.collection("areas").get();
 		areaRef.forEach((area) => {
-			areas.push(area.data());
+			areas.push({ ...area.data(), id: area.id });
 		});
 		return areas;
 	} catch (err) {

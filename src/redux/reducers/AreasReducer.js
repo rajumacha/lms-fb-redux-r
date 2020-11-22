@@ -1,6 +1,6 @@
 import { Types } from "../Types";
 
-const INITIAL_STATE = []; //[{area,city,pincode}]
+const INITIAL_STATE = []; //[{areaName,city,pincode}]
 
 const AreasReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {

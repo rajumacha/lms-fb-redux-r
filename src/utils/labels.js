@@ -12,4 +12,5 @@ export const labels = {
 	ADD_PERMISSION: "Add Permission",
 	NEW_ROLE: "New Role",
 	ADD_ROLE: "Add Role",
+	ADD_BRANCH: "Add Branch",
 };

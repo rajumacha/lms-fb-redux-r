@@ -13,6 +13,9 @@ import "./App.css";
 import Area from "./components/Admin/Area";
 import Permission from "./components/Admin/Permission";
 import Role from "./components/Admin/Role";
+import Branch from "./components/Admin/Branch";
+import Manager from "./components/Admin/Manager";
+import User from "./components/Admin/User";
 
 class App extends Component {
 	componentDidMount() {
@@ -38,6 +41,9 @@ class App extends Component {
 								<Route path="/add-area" component={Area} />
 								<Route path="/add-permission" component={Permission} />
 								<Route path="/add-role" component={Role} />
+								<Route path="/add-branch" component={Branch} />
+								<Route path="/add-manager" component={Manager} />
+								<Route path="/add-user" component={User} />
 							</>
 						)}
 						<Route component={Error} />

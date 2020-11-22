@@ -7,7 +7,7 @@ import Label from "../Label";
 import "./admin.styles.scss";
 
 function Area({ addAreaAction, getAreasAction, areas }) {
-	const [area, setArea] = useState("");
+	const [areaName, setAreaName] = useState("");
 	const [city, setCity] = useState("");
 	const [pincode, setPincode] = useState("");
 	const [error, setError] = useState("");
@@ -18,12 +18,12 @@ function Area({ addAreaAction, getAreasAction, areas }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addAreaAction({ area, city, pincode });
+		addAreaAction({ areaName, city, pincode });
 		setDefaults();
 	};
 
 	const setDefaults = () => {
-		setArea("");
+		setAreaName("");
 		setCity("");
 		setPincode("");
 		setError("");
@@ -36,14 +36,14 @@ function Area({ addAreaAction, getAreasAction, areas }) {
 			<form onSubmit={handleSubmit}>
 				<div className="field">
 					<input
-						id="area"
+						id="areaName"
 						type="text"
-						value={area}
-						onChange={(e) => setArea(e.target.value)}
+						value={areaName}
+						onChange={(e) => setAreaName(e.target.value)}
 						required
 					/>
-					<label htmlFor="area" className="label-text">
-						Area:
+					<label htmlFor="areaName" className="label-text">
+						AreaName:
 					</label>
 				</div>
 				<div className="field">
@@ -80,8 +80,8 @@ function Area({ addAreaAction, getAreasAction, areas }) {
 					<>
 						Areas Added : {areas.length}
 						{areas.map((area) => (
-							<div>
-								<span>{area.area}</span> <span>{area.city}</span>{" "}
+							<div key={area.id}>
+								<span>{area.areaName}</span> <span>{area.city}</span>{" "}
 								<span>{area.pincode}</span>
 							</div>
 						))}

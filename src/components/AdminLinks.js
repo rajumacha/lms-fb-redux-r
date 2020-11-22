@@ -7,13 +7,18 @@ export default function AdminLinks() {
 		<div className="sidebar">
 			<ul className="sidebar-items">
 				<li className="sidebar-item">
-					<Link to="/add-customer" className="white-text">
+					<Link to="/add-branch" className="white-text">
 						<i className="material-icons left">add</i> Branch
 					</Link>
 				</li>
 				<li className="sidebar-item">
-					<Link to="/add-customer" className="white-text">
+					<Link to="/add-user" className="white-text">
 						<i className="material-icons left">add</i> User
+					</Link>
+				</li>
+				<li className="sidebar-item">
+					<Link to="/add-manager" className="white-text">
+						<i className="material-icons left">add</i> Manager
 					</Link>
 				</li>
 				<li className="sidebar-item">
@@ -37,7 +42,7 @@ export default function AdminLinks() {
 					</Link>
 				</li>
 				<li className="sidebar-item">
-					<Link to="/list-customers" className="white-text">
+					<Link to="/list-branches" className="white-text">
 						<i className="material-icons small left">grid_on</i> Branches
 					</Link>
 				</li>
