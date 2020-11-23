@@ -155,13 +155,25 @@ function Branch({
 			<div>
 				{branches.length > 0 && (
 					<>
-						Branches Added : {branches.length}
-						{branches.map((branch) => (
-							<div key={branch.id}>
-								<span>{branch.branchName}</span> <span>{branch.city}</span>{" "}
-								<span>{branch.pincode}</span>
-							</div>
-						))}
+						<h5> Branches Created : {branches.length}</h5>
+						<table class="bordered">
+							<thead>
+								<tr>
+									<th>Branch</th>
+									<th>Area</th>
+								</tr>
+							</thead>
+							<tbody>
+								<>
+									{branches.map((branch) => (
+										<tr key={branch.id}>
+											<td>{branch.branchName}</td>
+											<td>{branch.areaName}</td>
+										</tr>
+									))}
+								</>
+							</tbody>
+						</table>
 					</>
 				)}
 			</div>
@@ -170,7 +182,6 @@ function Branch({
 }
 
 const mapStateToProps = ({ branches, areas }) => {
-	console.log(branches, areas);
 	return {
 		branches,
 		areas,

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { setCurUser, setLoginStatus } from "../redux/actions/UsersAction";
+import {
+	setCurUserAction,
+	setLoginStatusAction,
+	getUsersAction,
+} from "../redux/actions/UsersAction";
 import { getRolesAction } from "../redux/actions/RolesAction";
 import ErrorMsg from "./ErrorMsg";
 import { labels } from "../utils/labels";
@@ -10,8 +14,9 @@ function SignIn({
 	history,
 	users,
 	roles,
-	setCurUser,
-	setLoginStatus,
+	setCurUserAction,
+	setLoginStatusAction,
+	getUsersAction,
 	getRolesAction,
 }) {
 	const [name, setName] = useState(null);
@@ -21,22 +26,19 @@ function SignIn({
 
 	useEffect(() => {
 		getRolesAction();
+		getUsersAction();
 	}, []);
 
-	const verifyUserCredentials = async () => {
+	const verifyUserCredentials = () => {
 		let msg = "Credentials Are Not Valid!!!";
 
-		let usr = users.find((usr) => usr.password === password);
-
+		let usr = users.find(
+			(usr) =>
+				usr.password === password && usr.userName === name && usr.role === role
+		);
+		console.log(usr);
 		if (usr) {
-			let userRole = "";
-			let userRef = await usr.role.get();
-			userRole = userRef.data().name;
-			if (usr.name === name && usr.password === password && userRole === role) {
-				return "";
-			} else {
-				return "Credentials Are Not Valid!!!";
-			}
+			return "";
 		} else {
 			return msg;
 		}
@@ -44,28 +46,27 @@ function SignIn({
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		let error;
-		verifyUserCredentials().then((res) => {
-			error = res;
-			if (error === "") {
-				setCurUser({ name, role });
-				setLoginStatus(true);
-				history.push("/");
-			} else {
-				if (!error) {
-					error = "Credentials Are Not Valid!!!";
-				}
-				setError(error);
-				setCurUser(null);
-			}
-		});
+		let error = verifyUserCredentials();
+
+		if (error === "") {
+			setCurUserAction({ name, role });
+			setLoginStatusAction(true);
+			history.push("/");
+		} else {
+			setError(error);
+			setCurUserAction(null);
+		}
 	}
 
 	function displayRoles() {
 		let rolesOptions = [];
 		if (roles.length > 0) {
 			rolesOptions = roles.map((role) => {
-				return <option value={role.name}>{role.name}</option>;
+				return (
+					<option key={role.id} value={role.name}>
+						{role.name}
+					</option>
+				);
 			});
 		}
 		return rolesOptions;
@@ -129,14 +130,17 @@ const mapStateToProps = ({ users, roles }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setCurUser: (user) => {
-			dispatch(setCurUser(user));
+		setCurUserAction: (user) => {
+			dispatch(setCurUserAction(user));
 		},
-		setLoginStatus: (status) => {
-			dispatch(setLoginStatus(status));
+		setLoginStatusAction: (status) => {
+			dispatch(setLoginStatusAction(status));
 		},
 		getRolesAction: () => {
 			dispatch(getRolesAction());
+		},
+		getUsersAction: () => {
+			dispatch(getUsersAction());
 		},
 	};
 };

@@ -1,15 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setCurUser, setLoginStatus } from "../redux/actions/UsersAction";
+import {
+	setCurUserAction,
+	setLoginStatusAction,
+} from "../redux/actions/UsersAction";
 import { Link } from "react-router-dom";
 import { labels } from "../utils/labels";
 
 import "./styles/navbar.styles.scss";
 
-function Navbar({ curUser, loginStatus, setLoginStatus, setCurUser }) {
+function Navbar({
+	curUser,
+	loginStatus,
+	setLoginStatusAction,
+	setCurUserAction,
+}) {
 	const signout = () => {
-		setCurUser(null);
-		setLoginStatus(false);
+		setCurUserAction(null);
+		setLoginStatusAction(false);
 	};
 
 	return (
@@ -45,11 +53,11 @@ const mapStateToProps = ({ curUser, loginStatus }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setCurUser: (user) => {
-			dispatch(setCurUser(user));
+		setCurUserAction: (user) => {
+			dispatch(setCurUserAction(user));
 		},
-		setLoginStatus: (status) => {
-			dispatch(setLoginStatus(status));
+		setLoginStatusAction: (status) => {
+			dispatch(setLoginStatusAction(status));
 		},
 	};
 };

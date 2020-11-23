@@ -13,4 +13,6 @@ export const labels = {
 	NEW_ROLE: "New Role",
 	ADD_ROLE: "Add Role",
 	ADD_BRANCH: "Add Branch",
+	ADD_MANAGER: "Add Manager",
+	ADD_USER: "Add User",
 };

@@ -7,6 +7,7 @@ import AreasReducer from "./AreasReducer";
 import PermissionsReducer from "./PermissionsReducer";
 import RolesReducer from "./RolesReducer";
 import BranchesReducer from "./BranchesReducer";
+import ManagersReducer from "./ManagersReducer";
 
 const rootReducer = combineReducers({
 	users: UsersReducer, //[{name,password,role}]
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
 	permissions: PermissionsReducer, //[{name}]
 	roles: RolesReducer, //[{name, permissions: []}],
 	branches: BranchesReducer, //[{branchName, area,addr, contact,city,pincode}]
+	managers: ManagersReducer, //[{ managerName, password, contact, branchName, role }]
 });
 
 export default rootReducer;

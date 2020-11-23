@@ -17,7 +17,7 @@ export default function NonAdminLinks() {
 					</Link>
 				</li>
 				<li className="sidebar-item">
-					<Link to="/list-customers" className="white-text">
+					<Link to="/list-branches" className="white-text">
 						<i className="material-icons small left">grid_on</i> Branches
 					</Link>
 				</li>

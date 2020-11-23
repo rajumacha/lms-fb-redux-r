@@ -7,7 +7,7 @@ import SignIn from "./components/SignIn";
 import Error from "./components/Error";
 import AddCustomer from "./components/Customer/AddCustomer";
 import ListCustomers from "./components/Customer/ListCustomers";
-import { getUsers } from "./redux/actions/UsersAction";
+import { getUsersAction } from "./redux/actions/UsersAction";
 import SideNav from "./components/SideNav";
 import "./App.css";
 import Area from "./components/Admin/Area";
@@ -19,7 +19,7 @@ import User from "./components/Admin/User";
 
 class App extends Component {
 	componentDidMount() {
-		this.props.getUsers();
+		this.props.getUsersAction();
 	}
 	render() {
 		return (
@@ -30,7 +30,7 @@ class App extends Component {
 				<div className="sidebar-nav">
 					<SideNav />
 				</div>
-				<div class="content">
+				<div className="content">
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/sign-in" component={SignIn} />
@@ -56,8 +56,8 @@ class App extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getUsers: () => {
-			dispatch(getUsers());
+		getUsersAction: () => {
+			dispatch(getUsersAction());
 		},
 	};
 };

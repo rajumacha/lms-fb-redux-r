@@ -1,66 +1,83 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
+import { getBranchesAction } from "../../redux/actions/BranchesAction";
+import { getRolesAction } from "../../redux/actions/RolesAction";
 import {
-	addBranchAction,
-	getBranchesAction,
-} from "../../redux/actions/BranchesAction";
-import { getAreasAction } from "../../redux/actions/AreasAction";
+	addManagerAction,
+	getManagersAction,
+} from "../../redux/actions/ManagersAction";
 import { labels } from "../../utils/labels";
 import ErrorMsg from "../ErrorMsg";
 import Label from "../Label";
 import "./admin.styles.scss";
 
 function Manager({
-	addBranchAction,
 	getBranchesAction,
-	getAreasAction,
+	getRolesAction,
+	getManagersAction,
+	addManagerAction,
+	managers,
 	branches,
-	areas,
+	roles,
 }) {
-	const [branchName, setBranchName] = useState("");
-	const [areaName, setAreaName] = useState("");
-	const [address, setAddress] = useState("");
+	const [managerName, setManagerName] = useState("");
+	const [password, setPassword] = useState("");
 	const [contact, setContact] = useState("");
-	const [city, setCity] = useState("");
-	const [pincode, setPincode] = useState("");
-	const selectOption = useRef(null);
+	const [branchName, setBranchName] = useState("");
+	const [role, setRole] = useState("");
+	const selectBranchOption = useRef(null);
+	const selectRoleOption = useRef(null);
 	const [error, setError] = useState("");
 
 	useEffect(() => {
-		getAreasAction();
+		getRolesAction();
 		getBranchesAction();
+		getManagersAction();
 	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addBranchAction({ branchName, areaName, address, contact, city, pincode });
+		addManagerAction({ managerName, password, contact, branchName, role });
 		setDefaults();
 	};
 
 	const setDefaults = () => {
-		setBranchName("");
-		setAreaName("");
-		setAddress("");
+		setManagerName("");
+		setPassword("");
 		setContact("");
-		setCity("");
-		setPincode("");
 		setError("");
-		selectOption.current[0].selected = true;
+		selectBranchOption.current[0].selected = true;
+		selectRoleOption.current[0].selected = true;
 	};
 
-	const handleSelect = (e) => {
-		let area = areas.find((item) => item.id === e.target.value);
-		setAreaName(area.areaName);
-		setCity(area.city);
-		setPincode(area.pincode);
+	const handleRoleSelect = (e) => {
+		let role = roles.find((item) => item.id === e.target.value);
+		setRole(role.name);
 	};
 
-	const displayAreas = () => {
-		if (areas) {
-			return areas.map((area) => {
+	const handleBranchSelect = (e) => {
+		let branch = branches.find((item) => item.id === e.target.value);
+		setBranchName(branch.branchName);
+	};
+
+	const displayRoles = () => {
+		if (roles) {
+			return roles.map((role) => {
 				return (
-					<option key={area.id} value={area.id}>
-						{area.areaName}
+					<option key={role.id} value={role.id}>
+						{role.name}
+					</option>
+				);
+			});
+		}
+	};
+
+	const displayBranches = () => {
+		if (branches) {
+			return branches.map((branch) => {
+				return (
+					<option key={branch.id} value={branch.id}>
+						{branch.branchName}
 					</option>
 				);
 			});
@@ -75,46 +92,32 @@ function Manager({
 			<form onSubmit={handleSubmit}>
 				<div className="field">
 					<input
-						id="branchName"
+						id="managerName"
 						type="text"
-						value={branchName}
-						onChange={(e) => setBranchName(e.target.value)}
+						value={managerName}
+						onChange={(e) => setManagerName(e.target.value)}
 						required
 					/>
-					<label htmlFor="branchName" className="label-text">
-						BranchName:
+					<label htmlFor="managerName" className="label-text">
+						ManagerName:
 					</label>
 				</div>
 				<div className="field">
-					<label htmlFor="area">area</label>
-					<select
-						id="area"
-						name="area"
-						ref={selectOption}
-						onChange={handleSelect}
-					>
-						<option selected disabled hidden>
-							Select area
-						</option>
-						{displayAreas()}
-					</select>
-				</div>
-				<div className="field">
 					<input
-						id="address"
-						type="text"
-						value={address}
-						onChange={(e) => setAddress(e.target.value)}
+						id="password"
+						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-					<label htmlFor="address" className="label-text">
-						Address:
+					<label htmlFor="password" className="label-text">
+						Password:
 					</label>
 				</div>
 				<div className="field">
 					<input
 						id="contact"
-						type="text"
+						type="number"
 						value={contact}
 						onChange={(e) => setContact(e.target.value)}
 						required
@@ -124,44 +127,60 @@ function Manager({
 					</label>
 				</div>
 				<div className="field">
-					<input
-						id="city"
-						type="text"
-						value={city}
-						onChange={(e) => setCity(e.target.value)}
-						readOnly
-					/>
-					<label htmlFor="city" className="label-text">
-						City:
-					</label>
+					<label htmlFor="branch">Branch: </label>
+					<select
+						id="branch"
+						name="branch"
+						ref={selectBranchOption}
+						onChange={handleBranchSelect}
+					>
+						<option selected disabled hidden>
+							Select Branch
+						</option>
+						{displayBranches()}
+					</select>
 				</div>
 				<div className="field">
-					<input
-						id="pincode"
-						type="text"
-						value={pincode}
-						onChange={(e) => setPincode(e.target.value)}
-						readOnly
-					/>
-					<label htmlFor="pincode" className="label-text">
-						Pincode:
-					</label>
+					<label htmlFor="role">Role</label>
+					<select
+						id="role"
+						name="role"
+						ref={selectRoleOption}
+						onChange={handleRoleSelect}
+					>
+						<option selected disabled hidden>
+							Select Role
+						</option>
+						{displayRoles()}
+					</select>
 				</div>
 
 				<div className="field">
-					<button className="btn">{labels.ADD_BRANCH}</button>
+					<button className="btn">{labels.ADD_MANAGER}</button>
 				</div>
 			</form>
 			<div>
-				{branches.length > 0 && (
+				{managers.length > 0 && (
 					<>
-						Branches Added : {branches.length}
-						{branches.map((branch) => (
-							<div key={branch.id}>
-								<span>{branch.branchName}</span> <span>{branch.city}</span>{" "}
-								<span>{branch.pincode}</span>
-							</div>
-						))}
+						<h5>Managers Created : {managers.length}</h5>
+						<table class="bordered">
+							<thead>
+								<tr>
+									<th>Manager</th>
+									<th>Branch</th>
+								</tr>
+							</thead>
+							<tbody>
+								<>
+									{managers.map((manager) => (
+										<tr key={manager.id}>
+											<td>{manager.managerName}</td>
+											<td>{manager.branchName}</td>
+										</tr>
+									))}
+								</>
+							</tbody>
+						</table>
 					</>
 				)}
 			</div>
@@ -169,24 +188,27 @@ function Manager({
 	);
 }
 
-const mapStateToProps = ({ branches, areas }) => {
-	console.log(branches, areas);
+const mapStateToProps = ({ managers, branches, roles }) => {
 	return {
+		managers,
 		branches,
-		areas,
+		roles,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addBranchAction: (branch) => {
-			dispatch(addBranchAction(branch));
-		},
 		getBranchesAction: () => {
 			dispatch(getBranchesAction());
 		},
-		getAreasAction: () => {
-			dispatch(getAreasAction());
+		getRolesAction: () => {
+			dispatch(getRolesAction());
+		},
+		getManagersAction: () => {
+			dispatch(getManagersAction());
+		},
+		addManagerAction: (manager) => {
+			dispatch(addManagerAction(manager));
 		},
 	};
 };

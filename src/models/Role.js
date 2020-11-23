@@ -13,7 +13,7 @@ export const getRoles = async () => {
 		let roles = [];
 		let roleRef = await db.collection("roles").get();
 		roleRef.forEach((role) => {
-			roles.push(role.data());
+			roles.push({ ...role.data(), id: role.id });
 		});
 		return roles;
 	} catch (err) {

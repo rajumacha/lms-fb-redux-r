@@ -1,66 +1,112 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
+import { getBranchesAction } from "../../redux/actions/BranchesAction";
 import {
-	addBranchAction,
-	getBranchesAction,
-} from "../../redux/actions/BranchesAction";
-import { getAreasAction } from "../../redux/actions/AreasAction";
+	getManagersAction,
+	getBranchManagersAction,
+} from "../../redux/actions/ManagersAction";
+import { getRolesAction } from "../../redux/actions/RolesAction";
+import { addUserAction, getUsersAction } from "../../redux/actions/UsersAction";
 import { labels } from "../../utils/labels";
 import ErrorMsg from "../ErrorMsg";
 import Label from "../Label";
 import "./admin.styles.scss";
 
 function User({
-	addBranchAction,
+	addUserAction,
+	getUsersAction,
 	getBranchesAction,
-	getAreasAction,
+	getManagersAction,
+	getBranchManagersAction,
+	getRolesAction,
+	users,
 	branches,
-	areas,
+	managers,
+	roles,
 }) {
+	const [userName, setUserName] = useState("");
+	const [password, setPassword] = useState("");
 	const [branchName, setBranchName] = useState("");
-	const [areaName, setAreaName] = useState("");
-	const [address, setAddress] = useState("");
-	const [contact, setContact] = useState("");
-	const [city, setCity] = useState("");
-	const [pincode, setPincode] = useState("");
-	const selectOption = useRef(null);
+	const [managerName, setManagerName] = useState("");
+	const [role, setRole] = useState("");
+	const selectBranchOption = useRef(null);
+	const selectManagerOption = useRef(null);
+	const selectRoleOption = useRef(null);
 	const [error, setError] = useState("");
 
 	useEffect(() => {
-		getAreasAction();
+		getUsersAction();
 		getBranchesAction();
+		getRolesAction();
 	}, []);
+
+	useEffect(() => {
+		getBranchManagersAction(branchName);
+	}, [branchName]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addBranchAction({ branchName, areaName, address, contact, city, pincode });
+		addUserAction({ userName, password, branchName, managerName, role });
 		setDefaults();
 	};
 
 	const setDefaults = () => {
+		setUserName("");
+		setPassword("");
 		setBranchName("");
-		setAreaName("");
-		setAddress("");
-		setContact("");
-		setCity("");
-		setPincode("");
+		setManagerName("");
+		setRole("");
 		setError("");
-		selectOption.current[0].selected = true;
+		selectBranchOption.current[0].selected = true;
+		selectManagerOption.current[0].selected = true;
+		selectRoleOption.current[0].selected = true;
 	};
 
-	const handleSelect = (e) => {
-		let area = areas.find((item) => item.id === e.target.value);
-		setAreaName(area.areaName);
-		setCity(area.city);
-		setPincode(area.pincode);
+	const handleBranchSelect = (e) => {
+		let branch = branches.find((item) => item.id === e.target.value);
+		setBranchName(branch.branchName);
 	};
 
-	const displayAreas = () => {
-		if (areas) {
-			return areas.map((area) => {
+	const handleManagerSelect = (e) => {
+		let manager = managers.find((item) => item.id === e.target.value);
+		setManagerName(manager.managerName);
+	};
+
+	const handleRoleSelect = (e) => {
+		let role = roles.find((item) => item.id === e.target.value);
+		setRole(role.name);
+	};
+
+	const displayBranches = () => {
+		if (branches) {
+			return branches.map((branch) => {
 				return (
-					<option key={area.id} value={area.id}>
-						{area.areaName}
+					<option key={branch.id} value={branch.id}>
+						{branch.branchName}
+					</option>
+				);
+			});
+		}
+	};
+
+	const displayManagers = () => {
+		if (managers) {
+			return managers.map((manager) => {
+				return (
+					<option key={manager.id} value={manager.id}>
+						{manager.managerName}
+					</option>
+				);
+			});
+		}
+	};
+
+	const displayRoles = () => {
+		if (roles) {
+			return roles.map((role) => {
+				return (
+					<option key={role.id} value={role.id}>
+						{role.name}
 					</option>
 				);
 			});
@@ -75,77 +121,70 @@ function User({
 			<form onSubmit={handleSubmit}>
 				<div className="field">
 					<input
-						id="branchName"
+						id="userName"
 						type="text"
-						value={branchName}
-						onChange={(e) => setBranchName(e.target.value)}
+						value={userName}
+						onChange={(e) => setUserName(e.target.value)}
 						required
 					/>
-					<label htmlFor="branchName" className="label-text">
-						BranchName:
+					<label htmlFor="userName" className="label-text">
+						UserName:
 					</label>
 				</div>
 				<div className="field">
-					<label htmlFor="area">area</label>
+					<input
+						id="password"
+						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+					/>
+					<label htmlFor="password" className="label-text">
+						Password:
+					</label>
+				</div>
+
+				<div className="field">
+					<label htmlFor="branch">Branch: </label>
 					<select
-						id="area"
-						name="area"
-						ref={selectOption}
-						onChange={handleSelect}
+						id="branch"
+						name="branch"
+						ref={selectBranchOption}
+						onChange={handleBranchSelect}
 					>
 						<option selected disabled hidden>
-							Select area
+							Select Branch
 						</option>
-						{displayAreas()}
+						{displayBranches()}
 					</select>
 				</div>
 				<div className="field">
-					<input
-						id="address"
-						type="text"
-						value={address}
-						onChange={(e) => setAddress(e.target.value)}
-						required
-					/>
-					<label htmlFor="address" className="label-text">
-						Address:
-					</label>
+					<label htmlFor="branch">Manager: </label>
+					<select
+						id="manager"
+						name="manager"
+						ref={selectManagerOption}
+						onChange={handleManagerSelect}
+					>
+						<option selected disabled hidden>
+							Select Manager
+						</option>
+						{displayManagers()}
+					</select>
 				</div>
 				<div className="field">
-					<input
-						id="contact"
-						type="text"
-						value={contact}
-						onChange={(e) => setContact(e.target.value)}
-						required
-					/>
-					<label htmlFor="contact" className="label-text">
-						Contact:
-					</label>
-				</div>
-				<div className="field">
-					<input
-						id="city"
-						type="text"
-						value={city}
-						onChange={(e) => setCity(e.target.value)}
-						readOnly
-					/>
-					<label htmlFor="city" className="label-text">
-						City:
-					</label>
-				</div>
-				<div className="field">
-					<input
-						id="pincode"
-						type="text"
-						value={pincode}
-						onChange={(e) => setPincode(e.target.value)}
-						readOnly
-					/>
-					<label htmlFor="pincode" className="label-text">
-						Pincode:
-					</label>
+					<label htmlFor="role">Role</label>
+					<select
+						id="role"
+						name="role"
+						ref={selectRoleOption}
+						onChange={handleRoleSelect}
+					>
+						<option selected disabled hidden>
+							Select Role
+						</option>
+						{displayRoles()}
+					</select>
 				</div>
 
 				<div className="field">
@@ -153,15 +192,31 @@ function User({
 				</div>
 			</form>
 			<div>
-				{branches.length > 0 && (
+				{users.length > 0 && (
 					<>
-						Branches Added : {branches.length}
-						{branches.map((branch) => (
-							<div key={branch.id}>
-								<span>{branch.branchName}</span> <span>{branch.city}</span>{" "}
-								<span>{branch.pincode}</span>
-							</div>
-						))}
+						<h5> Users Added : {users.length}</h5>
+						<table class="bordered">
+							<thead>
+								<tr>
+									<th>User</th>
+									<th>Branch</th>
+									<th>Manager</th>
+									<th>Role</th>
+								</tr>
+							</thead>
+							<tbody>
+								<>
+									{users.map((user) => (
+										<tr key={user.id}>
+											<td>{user.userName}</td>
+											<td>{user.branchName}</td>
+											<td>{user.managerName}</td>
+											<td>{user.role}</td>
+										</tr>
+									))}
+								</>
+							</tbody>
+						</table>
 					</>
 				)}
 			</div>
@@ -169,24 +224,35 @@ function User({
 	);
 }
 
-const mapStateToProps = ({ branches, areas }) => {
-	console.log(branches, areas);
+const mapStateToProps = ({ users, branches, managers, roles }) => {
+	console.log(branches, managers, roles, users);
 	return {
+		users,
 		branches,
-		areas,
+		managers,
+		roles,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addBranchAction: (branch) => {
-			dispatch(addBranchAction(branch));
+		addUserAction: (user) => {
+			dispatch(addUserAction(user));
+		},
+		getUsersAction: () => {
+			dispatch(getUsersAction());
 		},
 		getBranchesAction: () => {
 			dispatch(getBranchesAction());
 		},
-		getAreasAction: () => {
-			dispatch(getAreasAction());
+		getManagersAction: () => {
+			dispatch(getManagersAction());
+		},
+		getRolesAction: () => {
+			dispatch(getRolesAction());
+		},
+		getBranchManagersAction: (branchName) => {
+			dispatch(getBranchManagersAction(branchName));
 		},
 	};
 };

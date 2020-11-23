@@ -78,13 +78,27 @@ function Area({ addAreaAction, getAreasAction, areas }) {
 			<div>
 				{areas.length > 0 && (
 					<>
-						Areas Added : {areas.length}
-						{areas.map((area) => (
-							<div key={area.id}>
-								<span>{area.areaName}</span> <span>{area.city}</span>{" "}
-								<span>{area.pincode}</span>
-							</div>
-						))}
+						<h5> Areas Added : {areas.length}</h5>
+						<table class="bordered">
+							<thead>
+								<tr>
+									<th>Area</th>
+									<th>City</th>
+									<th>Pincode</th>
+								</tr>
+							</thead>
+							<tbody>
+								<>
+									{areas.map((area) => (
+										<tr key={area.id}>
+											<td>{area.areaName}</td>
+											<td>{area.city}</td>
+											<td>{area.pincode}</td>
+										</tr>
+									))}
+								</>
+							</tbody>
+						</table>
 					</>
 				)}
 			</div>
