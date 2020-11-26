@@ -24,3 +24,50 @@
 select {
     display: block;
 }
+
+
+//reports styles
+.report {
+    min-width: 1100px;
+    max-height: 1100px;
+    display: inline-block;
+    margin-top: 15px;
+
+    //first-row
+    .controls {
+        min-width: 500px;
+        display: flex;
+
+        .selectOption {
+            min-width: 200px;
+        }
+    }
+
+    //second-row
+    .datesFilter {
+        max-width: 200px;
+        display: flex;
+        padding: 10px;
+
+        .option {
+            padding: 10px;
+        }
+        .sendbtn {
+            cursor: pointer;
+            padding: 30px;
+        }
+        .feedback {
+            min-width: 200px;
+            padding-top: 30px;
+        }
+    }
+
+    //third-row
+    .report-content {
+        max-width: 1000px;
+    }   
+}
+
+
+
+

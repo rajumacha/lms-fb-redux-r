@@ -29,8 +29,8 @@ function Navbar({
 				<ul className="nav-items">
 					{loginStatus ? (
 						<Link to="" onClick={signout}>
-							<li className="nav-item right">
-								{`Welcome ${curUser.name}`} {labels.SIGNOUT}
+							<li className="nav-item">
+								Welcome {curUser.name} {labels.SIGNOUT}
 							</li>
 						</Link>
 					) : (

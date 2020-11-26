@@ -29,31 +29,20 @@ function SignIn({
 		getUsersAction();
 	}, []);
 
-	const verifyUserCredentials = () => {
-		let msg = "Credentials Are Not Valid!!!";
+	function handleSubmit(e) {
+		e.preventDefault();
 
+		let msg = "Credentials Are Not Valid!!!";
 		let usr = users.find(
 			(usr) =>
 				usr.password === password && usr.userName === name && usr.role === role
 		);
-		console.log(usr);
 		if (usr) {
-			return "";
-		} else {
-			return msg;
-		}
-	};
-
-	function handleSubmit(e) {
-		e.preventDefault();
-		let error = verifyUserCredentials();
-
-		if (error === "") {
-			setCurUserAction({ name, role });
+			setCurUserAction({ id: usr.id, name, role });
 			setLoginStatusAction(true);
 			history.push("/");
 		} else {
-			setError(error);
+			setError(msg);
 			setCurUserAction(null);
 		}
 	}

@@ -7,7 +7,7 @@ const CustomersReducer = (state = INITIAL_STATE, action) => {
 		case Types.ADD_CUSTOMER:
 			return [...state, action.payload]; //adds customer to db and update customers in redux
 		case Types.GET_CUSTOMERS:
-			return [...action.payload]; //gets customers []
+			return action.payload ? [...action.payload] : []; //gets customers []
 		default:
 			return state;
 	}

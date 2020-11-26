@@ -1,0 +1,23 @@
+//user report 
+.user-report {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .user-details {
+        grid-column: 1;
+        display: flex;
+        justify-content: space-around;
+    }
+    .report-content {
+        grid-row-start: 2;
+        min-width: 800px;
+    }
+    .user-summary h6 {
+        font-size: 1.3em;
+    }
+    span {
+        font-size: 20px;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+}

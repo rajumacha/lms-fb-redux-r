@@ -10,10 +10,10 @@ import BranchesReducer from "./BranchesReducer";
 import ManagersReducer from "./ManagersReducer";
 
 const rootReducer = combineReducers({
-	users: UsersReducer, //[{name,password,role}]
-	curUser: CurUserReducer, //{name,role} / null
+	users: UsersReducer, //[{ userName, password, branchName, managerName, role }]
+	curUser: CurUserReducer, //{id,name,role} / null
 	loginStatus: LoginStatusReducer, //true/false
-	customers: CustomersReducer, //[]
+	customers: CustomersReducer, //[{name, shopName, mobile, location, gender, interested,followupDate,comments,addedBy: this.props.curUser,}]
 	areas: AreasReducer, //[{areaName,city,pincode}]
 	permissions: PermissionsReducer, //[{name}]
 	roles: RolesReducer, //[{name, permissions: []}],

@@ -61,7 +61,8 @@ class AddCustomer extends Component {
 			interested,
 			followupDate,
 			comments,
-			addedBy: this.props.curUser,
+			addedBy: this.props.curUser.name,
+			createdAt: Date.parse(new Date()),
 		});
 		//show alert message
 		this.showMessage("New Customer is added..");
@@ -111,7 +112,7 @@ class AddCustomer extends Component {
 				<form className="card" onSubmit={this.handleAdd}>
 					<div className="card-content">
 						<div className="customer-info">
-							<div>
+							<div className="field">
 								<label htmlFor="name">
 									Name:
 									<input
@@ -124,7 +125,7 @@ class AddCustomer extends Component {
 									/>
 								</label>
 							</div>
-							<div>
+							<div className="field">
 								<label htmlFor="shopname">
 									Shopname:
 									<input
@@ -137,7 +138,7 @@ class AddCustomer extends Component {
 									/>
 								</label>
 							</div>
-							<div>
+							<div className="field">
 								<label htmlFor="mobile">Mobile:</label>
 								<div className="country-code">
 									<input type="text" value="+91" className="code" readOnly />
@@ -152,13 +153,13 @@ class AddCustomer extends Component {
 									/>
 								</div>
 							</div>
-							<div>
+							<div className="field">
 								<label>Gender: </label>
 								<label>
 									<input
 										name="gender"
 										type="radio"
-										className="with-gap"
+										className="field with-gap"
 										value="male"
 										onChange={this.handleChange}
 									/>
@@ -168,14 +169,14 @@ class AddCustomer extends Component {
 									<input
 										name="gender"
 										type="radio"
-										className="with-gap"
+										className="field with-gap"
 										value="female"
 										onChange={this.handleChange}
 									/>
 									<span>Female</span>
 								</label>
 							</div>
-							<div>
+							<div className="field">
 								<label htmlFor="location">
 									Location:
 									<input
@@ -188,14 +189,14 @@ class AddCustomer extends Component {
 									/>
 								</label>
 							</div>
-							<div>
+							<div className="field">
 								<label>Interested: </label>
 								<p></p>
 								<label>
 									<input
 										name="group2"
 										type="radio"
-										className="with-gap"
+										className="field with-gap"
 										value="yes"
 										onChange={this.handleChange}
 									/>
@@ -205,7 +206,7 @@ class AddCustomer extends Component {
 									<input
 										name="group2"
 										type="radio"
-										className="with-gap"
+										className="field with-gap"
 										value="no"
 										onChange={this.handleChange}
 									/>
@@ -215,7 +216,7 @@ class AddCustomer extends Component {
 									<input
 										name="group2"
 										type="radio"
-										className="with-gap"
+										className="field with-gap"
 										value="followup"
 										onChange={this.handleChange}
 									/>
@@ -231,7 +232,7 @@ class AddCustomer extends Component {
 									onChange={this.handleChange}
 								/>
 							</div>
-							<div>
+							<div className="field">
 								<label htmlFor="comments">Comments: </label>
 								<textarea
 									name="comments"
@@ -243,7 +244,7 @@ class AddCustomer extends Component {
 							</div>
 						</div>
 						<div className="center-align">
-							<button className="btn field">Add</button>
+							<button className="btn">Add</button>
 						</div>
 					</div>
 				</form>

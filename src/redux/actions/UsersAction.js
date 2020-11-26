@@ -19,7 +19,7 @@ export const getUsersAction = () => {
 export const setCurUserAction = (user) => {
 	return {
 		type: Types.CUR_USER,
-		payload: user, //{name,role}/null
+		payload: user, //{id,name,role}/null
 	};
 };
 

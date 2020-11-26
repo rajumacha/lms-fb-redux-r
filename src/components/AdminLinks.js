@@ -46,6 +46,11 @@ export default function AdminLinks() {
 						<i className="material-icons small left">grid_on</i> Branches
 					</Link>
 				</li>
+				<li className="sidebar-item">
+					<Link to="/reports" className="white-text">
+						<i className="material-icons small left">grid_on</i> Reports
+					</Link>
+				</li>
 			</ul>
 		</div>
 	);
