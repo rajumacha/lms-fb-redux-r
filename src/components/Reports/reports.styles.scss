@@ -21,3 +21,51 @@
         font-weight: bold;
     }
 }
+
+//manager report 
+.manager-report {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .manager-details {
+        grid-column: 1;
+        display: flex;
+        justify-content: space-around;
+    }
+    .report-content {
+        grid-row-start: 2;
+        min-width: 800px;
+    }
+    .manager-summary h6 {
+        font-size: 1.3em;
+    }
+    span {
+        font-size: 20px;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+}
+
+//branch report 
+.branch-report {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .branch-details {
+        grid-column: 1;
+        display: flex;
+        justify-content: space-around;
+    }
+    .report-content {
+        grid-row-start: 2;
+        min-width: 800px;
+    }
+    .branch-summary h6 {
+        font-size: 1.3em;
+    }
+    span {
+        font-size: 20px;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+}

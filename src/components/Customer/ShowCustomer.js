@@ -2,7 +2,6 @@ import React from "react";
 
 export default function ShowCustomer({ lead }) {
 	const {
-		id,
 		name,
 		gender,
 		shopName,

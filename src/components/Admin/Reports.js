@@ -1,14 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { getBranchesAction } from "../../redux/actions/BranchesAction";
-import { getUsersAction } from "../../redux/actions/UsersAction";
-import { getManagersAction } from "../../redux/actions/ManagersAction";
+import {
+	getUsersAction,
+	getUsersBasedOnBranchAction,
+} from "../../redux/actions/UsersAction";
+import {
+	getManagersAction,
+	getBranchManagersAction,
+} from "../../redux/actions/ManagersAction";
 import {
 	getCustomersAction,
 	getCustomersBasedOnDateFiltersAction,
 } from "../../redux/actions/CustomersAction";
 import "./admin.styles.scss";
 import UserReport from "../Reports/UserReport";
+import ManagerReport from "../Reports/ManagerReport";
+import BranchReport from "../Reports/BranchReport";
 
 function Reports({
 	curUser,
@@ -17,7 +25,9 @@ function Reports({
 	customers,
 	branches,
 	getBranchesAction,
+	getBranchManagersAction,
 	getUsersAction,
+	getUsersBasedOnBranchAction,
 	getManagersAction,
 	getCustomersAction,
 	getCustomersBasedOnDateFiltersAction,
@@ -29,16 +39,16 @@ function Reports({
 	const [user, setUser] = useState(null);
 	const [manager, setManager] = useState(null);
 	const [branch, setBranch] = useState(null);
-	const [showReport, setShowReport] = useState(false);
-	const [showDatesFilter, setShowDatesFilter] = useState(false);
-	const [optionSelected, setOptionSelected] = useState("");
+	const [showReportFlag, setshowReportFlag] = useState(false);
+	const [showDatesFilterFlag, setshowDatesFilterFlag] = useState(false);
+	const [optionSelected, setOptionSelected] = useState(""); //radiobutton options - 'users', 'managers', 'customers','branches'
 	const selectOption = useRef(null);
 
 	useEffect(() => {
+		getCustomersAction();
 		getBranchesAction();
 		getUsersAction();
 		getManagersAction();
-		getCustomersAction();
 	}, []);
 
 	useEffect(() => {
@@ -47,11 +57,29 @@ function Reports({
 				fromDate,
 				toDate,
 				name: user.userName,
+				reportFor: "user",
 			});
+		} else if (manager) {
+			getCustomersBasedOnDateFiltersAction({
+				fromDate,
+				toDate,
+				name: manager.managerName,
+				reportFor: "manager",
+			});
+		} else if (branch) {
+			getCustomersBasedOnDateFiltersAction({
+				fromDate,
+				toDate,
+				name: branch.branchName,
+				reportFor: "branch",
+			});
+			getBranchManagersAction(branch.branchName);
+			getUsersBasedOnBranchAction(branch.branchName);
 		}
-	}, [dates]);
+	}, [dates, user, manager, branch]);
 
 	//users, managers, branches radio buttons
+	//based on selected option - the dropdon will be populated accordingly either with users/managers/branches etc
 	const handleOptions = (e) => {
 		let { value } = e.target;
 
@@ -60,8 +88,8 @@ function Reports({
 		setUser(null);
 		setManager(null);
 		setBranch(null);
-		setShowReport(false);
-		setShowDatesFilter(false);
+		setshowReportFlag(false);
+		setshowDatesFilterFlag(false);
 		setFromDate("");
 		setToDate("");
 		setDates(null);
@@ -81,19 +109,13 @@ function Reports({
 				managers.map((mng) => {
 					names.push({ name: mng.managerName, id: mng.id });
 				});
-				setNames(names);
+				setNames([...names]);
 				return;
 			case "branches":
 				branches.map((brn) => {
 					names.push({ name: brn.branchName, id: brn.id });
 				});
-				setNames(names);
-				return;
-			case "customers":
-				customers.map((cust) => {
-					names.push({ name: cust.name, id: cust.id });
-				});
-				setNames(names);
+				setNames([...names]);
 				return;
 			default:
 				return;
@@ -101,13 +123,26 @@ function Reports({
 	};
 
 	//dropdown selection
+	//users - selected user will be set
+	//managers - selected manager will be set
+	//branches - selected branch will be set
 	const handleSelect = (e) => {
 		let name = e.target.value;
 		switch (optionSelected) {
 			case "users":
 				let user = users.find((usr) => usr.userName === name);
 				setUser(user);
-				setShowDatesFilter(true);
+				setshowDatesFilterFlag(true);
+				return;
+			case "managers":
+				let manager = managers.find((mng) => mng.managerName === name);
+				setManager(manager);
+				setshowDatesFilterFlag(true);
+				return;
+			case "branches":
+				let branch = branches.find((brn) => brn.branchName === name);
+				setBranch(branch);
+				setshowDatesFilterFlag(true);
 				return;
 			default:
 				return;
@@ -129,13 +164,20 @@ function Reports({
 	};
 
 	//datesFilter show button handler
+	//when click on datesFilter send button, set both fromDate, toDate
+	//set setshowReportFlag flag true - display reports section based on this flag
+	//get customers of all users of all branches based on dates selected
 	const handleDateFilter = () => {
 		setDates({ fromDate, toDate });
-		setShowReport(true);
+		setshowReportFlag(true);
 	};
 
 	//datesFilter show button will be displayed based on conditions
-	const showSend = () => {
+	//conditions - both fromDate & toDate should be selected
+	//fromDate < toDate
+	//then only - enable send button
+	//otherwise - display error message
+	const showSendButton = () => {
 		let feedback = "";
 		if (fromDate && toDate) {
 			if (fromDate < toDate) {
@@ -150,6 +192,56 @@ function Reports({
 			}
 		}
 		return feedback;
+	};
+
+	//reports section
+	//dislay reports based on radio button options selected - users/managers/branches
+	//UserReport - displays customers created by user during the selected fromDate & toDate
+	//ManagerReport - displays users/customers created by those users during seleced dates
+	//BranchReport - displays managers/users/customers during selected dates
+	const showReport = () => {
+		if (showReportFlag) {
+			switch (optionSelected) {
+				case "users":
+					return (
+						<UserReport
+							results={customers}
+							user={user}
+							duration={{ fromDate, toDate }}
+						/>
+					);
+				case "managers":
+					let filteredUsers = users.filter(
+						(usr) => usr.managerName === manager.managerName
+					);
+					let filteredCustomers = customers.filter((cust) => {
+						let usr = filteredUsers.find(
+							(usr) => usr.userName === cust.addedBy
+						);
+						if (usr) return cust;
+					});
+					return (
+						<ManagerReport
+							users={filteredUsers}
+							customers={filteredCustomers}
+							manager={manager}
+							duration={{ fromDate, toDate }}
+						/>
+					);
+				case "branches":
+					return (
+						<BranchReport
+							users={users}
+							customers={customers}
+							managers={managers}
+							branch={branch}
+							duration={{ fromDate, toDate }}
+						/>
+					);
+				default:
+					return;
+			}
+		}
 	};
 
 	return (
@@ -197,7 +289,7 @@ function Reports({
 					</label>
 				</div>
 			</div>
-			{showDatesFilter && (
+			{showDatesFilterFlag && (
 				<div className="datesFilter">
 					<label className="fromDate option">
 						<input
@@ -217,19 +309,11 @@ function Reports({
 						/>
 						<span>To: </span>
 					</label>
-					{showSend()}
+					{showSendButton()}
 				</div>
 			)}
 			{/** results section*/}
-			<div className="report-content">
-				{showReport && (
-					<UserReport
-						results={customers}
-						user={user}
-						duration={{ fromDate, toDate }}
-					/>
-				)}
-			</div>
+			<div className="report-content">{showReport()}</div>
 		</div>
 	);
 }
@@ -252,8 +336,14 @@ const mapDispatchToProps = (dispatch) => {
 		getUsersAction: () => {
 			dispatch(getUsersAction());
 		},
+		getUsersBasedOnBranchAction: (branchName) => {
+			dispatch(getUsersBasedOnBranchAction(branchName));
+		},
 		getManagersAction: () => {
 			dispatch(getManagersAction());
+		},
+		getBranchManagersAction: (branchName) => {
+			dispatch(getBranchManagersAction(branchName));
 		},
 		getCustomersAction: () => {
 			dispatch(getCustomersAction());

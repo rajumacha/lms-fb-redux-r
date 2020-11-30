@@ -45,6 +45,7 @@ class App extends Component {
 								<Route path="/add-branch" component={Branch} />
 								<Route path="/add-manager" component={Manager} />
 								<Route path="/add-user" component={User} />
+								{/* <Route path="/reports" component={Reports} /> */}
 								<Route path="/reports" component={Reports} />
 							</>
 						)}

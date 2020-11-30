@@ -27,6 +27,7 @@ export const getCustomersAction = () => {
 export const getCustomersBasedOnDateFiltersAction = (dates) => {
 	return async (dispatch) => {
 		let customers = await getCustomersBasedOnDateFilters(dates);
+		console.log(customers);
 		dispatch({ type: Types.GET_CUSTOMERS, payload: customers });
 	};
 };

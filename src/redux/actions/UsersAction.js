@@ -1,5 +1,5 @@
 import { Types } from "../Types";
-import { addUser, getUsers } from "../../models/User";
+import { addUser, getUsers, getUsersBasedOnBranch } from "../../models/User";
 
 export const addUserAction = (user) => {
 	return async (dispatch) => {
@@ -11,6 +11,13 @@ export const addUserAction = (user) => {
 export const getUsersAction = () => {
 	return async (dispatch) => {
 		let users = await getUsers();
+		dispatch({ type: Types.GET_USERS, payload: users });
+	};
+};
+
+export const getUsersBasedOnBranchAction = (branchName) => {
+	return async (dispatch) => {
+		let users = await getUsersBasedOnBranch(branchName);
 		dispatch({ type: Types.GET_USERS, payload: users });
 	};
 };

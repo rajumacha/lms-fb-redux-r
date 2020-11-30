@@ -21,7 +21,6 @@ export const getManagersAction = () => {
 };
 
 export const getBranchManagersAction = (branchName) => {
-	console.log(branchName);
 	return async (dispatch) => {
 		let managers = await getBranchManagers(branchName);
 		dispatch({ type: Types.GET_BRANCH_MANAGERS, payload: managers });
