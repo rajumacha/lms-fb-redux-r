@@ -16,7 +16,6 @@ function SignIn({
 	roles,
 	setCurUserAction,
 	setLoginStatusAction,
-	getUsersAction,
 	getRolesAction,
 }) {
 	const [name, setName] = useState(null);
@@ -26,7 +25,6 @@ function SignIn({
 
 	useEffect(() => {
 		getRolesAction();
-		getUsersAction();
 	}, []);
 
 	function handleSubmit(e) {
@@ -109,8 +107,7 @@ function SignIn({
 	);
 }
 
-const mapStateToProps = ({ users, roles }) => {
-	console.log(users);
+const mapStateToProps = ({ users: { all_users: users }, roles }) => {
 	return {
 		users,
 		roles,
@@ -127,9 +124,6 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		getRolesAction: () => {
 			dispatch(getRolesAction());
-		},
-		getUsersAction: () => {
-			dispatch(getUsersAction());
 		},
 	};
 };

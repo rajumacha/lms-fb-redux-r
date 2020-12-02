@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getCustomersAction } from "../../redux/actions/CustomersAction";
-import ShowCustomer from "./ShowCustomer";
 
 function ListCustomers({ getCustomersAction, customers }) {
 	useEffect(() => {
@@ -10,12 +9,37 @@ function ListCustomers({ getCustomersAction, customers }) {
 
 	return (
 		<div className="container">
-			<h3 className="teal-text draken-4 center">{customers.length}</h3>
-			<ul className="collection">
-				{customers.map((customer) => (
-					<ShowCustomer key={customer.id} lead={{ ...customer }} />
-				))}
-			</ul>
+			<h5 className="teal-text draken-4 center">
+				Total Customers: {customers.length}
+			</h5>
+			<table class="bordered">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>Name</th>
+						<th>Gender</th>
+						<th>Mobile</th>
+						<th>ShopName</th>
+						<th>Location</th>
+						<th>Interested</th>
+						<th>Comments</th>
+					</tr>
+				</thead>
+				<tbody>
+					{customers.map((customer) => (
+						<tr key={customer.id}>
+							<td>{customer.addedBy}</td>
+							<td>{customer.name}</td>
+							<td>{customer.gender}</td>
+							<td>{customer.mobile}</td>
+							<td>{customer.shopName}</td>
+							<td>{customer.location}</td>
+							<td>{customer.interested}</td>
+							<td>{customer.comments}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
 		</div>
 	);
 }
@@ -26,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const mapStateToProps = ({ customers }) => {
+const mapStateToProps = ({ customers: { all_customers: customers } }) => {
 	console.log(customers);
 	return {
 		customers,

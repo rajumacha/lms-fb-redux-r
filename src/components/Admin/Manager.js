@@ -35,6 +35,10 @@ function Manager({
 		getManagersAction();
 	}, []);
 
+	useEffect(() => {
+		getManagersAction();
+	}, [managerName]);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		addManagerAction({ managerName, password, contact, branchName, role });
@@ -188,7 +192,11 @@ function Manager({
 	);
 }
 
-const mapStateToProps = ({ managers, branches, roles }) => {
+const mapStateToProps = ({
+	managers: { all_managers: managers },
+	branches: { all_branches: branches },
+	roles,
+}) => {
 	return {
 		managers,
 		branches,

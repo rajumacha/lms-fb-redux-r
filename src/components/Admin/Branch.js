@@ -14,7 +14,7 @@ function Branch({
 	addBranchAction,
 	getBranchesAction,
 	getAreasAction,
-	branches,
+	all_branches,
 	areas,
 }) {
 	const [branchName, setBranchName] = useState("");
@@ -29,7 +29,7 @@ function Branch({
 	useEffect(() => {
 		getAreasAction();
 		getBranchesAction();
-	}, []);
+	}, [branchName]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -153,9 +153,9 @@ function Branch({
 				</div>
 			</form>
 			<div>
-				{branches.length > 0 && (
+				{all_branches.length > 0 && (
 					<>
-						<h5> Branches Created : {branches.length}</h5>
+						<h5> Branches Created : {all_branches.length}</h5>
 						<table class="bordered">
 							<thead>
 								<tr>
@@ -165,7 +165,7 @@ function Branch({
 							</thead>
 							<tbody>
 								<>
-									{branches.map((branch) => (
+									{all_branches.map((branch) => (
 										<tr key={branch.id}>
 											<td>{branch.branchName}</td>
 											<td>{branch.areaName}</td>
@@ -181,9 +181,10 @@ function Branch({
 	);
 }
 
-const mapStateToProps = ({ branches, areas }) => {
+const mapStateToProps = ({ branches: { all_branches }, areas }) => {
+	console.log(all_branches);
 	return {
-		branches,
+		all_branches,
 		areas,
 	};
 };

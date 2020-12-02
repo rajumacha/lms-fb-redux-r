@@ -2,7 +2,7 @@ import { Types } from "../Types";
 import {
 	addCustomer,
 	getCustomers,
-	getCustomersBasedOnDateFilters,
+	getDurationCustomers,
 } from "../../models/Customer";
 
 export const addCustomerAction = (customer) => {
@@ -19,15 +19,12 @@ export const addCustomerAction = (customer) => {
 export const getCustomersAction = () => {
 	return async (dispatch) => {
 		let customers = await getCustomers();
-		console.log(customers);
 		dispatch({ type: Types.GET_CUSTOMERS, payload: customers });
 	};
 };
-
-export const getCustomersBasedOnDateFiltersAction = (dates) => {
+export const getDurationCustomersAction = (dates) => {
 	return async (dispatch) => {
-		let customers = await getCustomersBasedOnDateFilters(dates);
-		console.log(customers);
-		dispatch({ type: Types.GET_CUSTOMERS, payload: customers });
+		let customers = await getDurationCustomers(dates);
+		dispatch({ type: Types.GET_DURATION_CUSTOMERS, payload: customers });
 	};
 };

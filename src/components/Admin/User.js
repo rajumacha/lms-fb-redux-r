@@ -1,28 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { getBranchesAction } from "../../redux/actions/BranchesAction";
-import {
-	getManagersAction,
-	getBranchManagersAction,
-} from "../../redux/actions/ManagersAction";
 import { getRolesAction } from "../../redux/actions/RolesAction";
 import { addUserAction, getUsersAction } from "../../redux/actions/UsersAction";
+import {
+	getBranchesAction,
+	getBranchManagersAction,
+} from "../../redux/actions/BranchesAction";
 import { labels } from "../../utils/labels";
 import ErrorMsg from "../ErrorMsg";
 import Label from "../Label";
 import "./admin.styles.scss";
 
 function User({
+	users,
+	managers,
+	branches,
+	roles,
 	addUserAction,
 	getUsersAction,
-	getBranchesAction,
-	getManagersAction,
-	getBranchManagersAction,
 	getRolesAction,
-	users,
-	branches,
-	managers,
-	roles,
+	getBranchesAction,
+	getBranchManagersAction,
 }) {
 	const [userName, setUserName] = useState("");
 	const [password, setPassword] = useState("");
@@ -43,6 +41,10 @@ function User({
 	useEffect(() => {
 		getBranchManagersAction(branchName);
 	}, [branchName]);
+
+	useEffect(() => {
+		getUsersAction();
+	}, [userName]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -224,36 +226,22 @@ function User({
 	);
 }
 
-const mapStateToProps = ({ users, branches, managers, roles }) => {
-	console.log(branches, managers, roles, users);
-	return {
-		users,
-		branches,
-		managers,
-		roles,
-	};
+const mapStateToProps = ({
+	users: { all_users: users },
+	branches: { all_branches: branches, branch_managers: managers },
+	roles,
+}) => {
+	return { users, managers, branches, roles };
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addUserAction: (user) => {
-			dispatch(addUserAction(user));
-		},
-		getUsersAction: () => {
-			dispatch(getUsersAction());
-		},
-		getBranchesAction: () => {
-			dispatch(getBranchesAction());
-		},
-		getManagersAction: () => {
-			dispatch(getManagersAction());
-		},
-		getRolesAction: () => {
-			dispatch(getRolesAction());
-		},
-		getBranchManagersAction: (branchName) => {
-			dispatch(getBranchManagersAction(branchName));
-		},
+		getUsersAction: () => dispatch(getUsersAction()),
+		getBranchesAction: () => dispatch(getBranchesAction()),
+		getRolesAction: () => dispatch(getRolesAction()),
+		addUserAction: (user) => dispatch(addUserAction(user)),
+		getBranchManagersAction: (branchManager) =>
+			dispatch(getBranchManagersAction(branchManager)),
 	};
 };
 

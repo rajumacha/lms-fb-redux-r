@@ -1,7 +1,9 @@
 import {
 	addManager,
 	getManagers,
-	getBranchManagers,
+	getManagerUsers,
+	getManagerCustomers,
+	getDurationManagerCustomers,
 } from "../../models/Manager";
 import { Types } from "../Types";
 
@@ -20,9 +22,30 @@ export const getManagersAction = () => {
 	};
 };
 
-export const getBranchManagersAction = (branchName) => {
+export const getManagerUsersAction = (managerName) => {
 	return async (dispatch) => {
-		let managers = await getBranchManagers(branchName);
-		dispatch({ type: Types.GET_BRANCH_MANAGERS, payload: managers });
+		let managerUsers = await getManagerUsers(managerName);
+		dispatch({ type: Types.GET_MANAGER_USERS, payload: managerUsers });
+	};
+};
+export const getManagerCustomersAction = (managerName) => {
+	return async (dispatch) => {
+		let managerCustomers = await getManagerCustomers(managerName);
+		dispatch({ type: Types.GET_MANAGER_CUSTOMERS, payload: managerCustomers });
+	};
+};
+export const getDurationManagerCustomersAction = (
+	{ fromDate, toDate },
+	managerName
+) => {
+	return async (dispatch) => {
+		let durationManagerCustomers = await getDurationManagerCustomers(
+			{ fromDate, toDate },
+			managerName
+		);
+		dispatch({
+			type: Types.GET_DURATION_MANAGER_CUSTOMERS,
+			payload: durationManagerCustomers,
+		});
 	};
 };

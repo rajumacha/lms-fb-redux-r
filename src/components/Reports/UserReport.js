@@ -2,8 +2,12 @@ import React from "react";
 import "./reports.styles.scss";
 import SummaryReport from "./SummaryReport";
 
-export default function UserReport({ results, user, duration }) {
-	//results = [{name,shopName,mobile,location,gender,interested,followupDate,addedBy,createdAt,comments}]
+export default function UserReport({
+	customers,
+	user,
+	duration: { fromDate, toDate },
+}) {
+	//customers = [{name,shopName,mobile,location,gender,interested,followupDate,addedBy,createdAt,comments}]
 	//{userName,branchName, managerName,...}
 	return (
 		<div className="user-report">
@@ -13,11 +17,11 @@ export default function UserReport({ results, user, duration }) {
 					<h6>Manager: {user.managerName}</h6>
 					<h6>Branch: {user.branchName}</h6>
 					<h6>
-						Duration : {duration.fromDate} to {duration.toDate}
+						Duration : {fromDate} to {toDate}
 					</h6>
 				</div>
 				<div className="user-summary">
-					{<SummaryReport results={results} />}
+					{<SummaryReport results={customers} />}
 				</div>
 			</div>
 			<div className="report-content">
@@ -32,7 +36,7 @@ export default function UserReport({ results, user, duration }) {
 						</tr>
 					</thead>
 					<tbody>
-						{results.map((cust) => {
+						{customers.map((cust) => {
 							let {
 								id,
 								name,

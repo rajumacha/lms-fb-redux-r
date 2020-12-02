@@ -18,7 +18,6 @@ export default function BranchReport({
 	const [bcustomers, setBCustomers] = useState([]);
 	let { branchName } = branch;
 
-	console.log(users, managers, customers);
 	const selectOption = useRef(null);
 
 	useEffect(() => {
@@ -92,14 +91,16 @@ export default function BranchReport({
 		let filteredUsers = busers.filter(
 			(usr) => usr.managerName === bManager.managerName
 		);
-		let filteredCustomers = customers.map((cust) => {
+		let filteredCustomers = [];
+		customers.map((cust) => {
 			let user = filteredUsers.find((usr) => usr.userName === cust.addedBy);
 			if (user) {
-				return cust;
+				filteredCustomers.push(cust);
 			}
 		});
+		console.log(filteredCustomers, filteredUsers);
 		setBUsers(filteredUsers);
-		setBManagers(managers);
+		setBManagers([bManager]);
 		setBCustomers(filteredCustomers);
 	};
 
@@ -146,7 +147,6 @@ export default function BranchReport({
 			let usr = musers.find((u) => u.userName === cust.addedBy);
 			if (usr) mcustomers.push(cust);
 		});
-		console.log(mcustomers, musers, managerName);
 		if (musers.length === 0) {
 			return (
 				<tr key={id}>
