@@ -66,6 +66,8 @@ function User({
 
 	const handleBranchSelect = (e) => {
 		let branch = branches.find((item) => item.id === e.target.value);
+		selectManagerOption.current[0].selected = true;
+		selectRoleOption.current[0].selected = true;
 		setBranchName(branch.branchName);
 	};
 
@@ -93,13 +95,29 @@ function User({
 
 	const displayManagers = () => {
 		if (managers) {
-			return managers.map((manager) => {
+			console.log(managers.length);
+			if (managers.length === 0) {
+				return (
+					<option key="0" selected selectedIndex="0">
+						No Managers...
+					</option>
+				);
+			}
+			let options = managers.map((manager, idx) => {
 				return (
 					<option key={manager.id} value={manager.id}>
 						{manager.managerName}
 					</option>
 				);
 			});
+			return (
+				<>
+					<option selected disabled hidden>
+						Select Manager
+					</option>
+					{options}
+				</>
+			);
 		}
 	};
 
@@ -168,9 +186,6 @@ function User({
 						ref={selectManagerOption}
 						onChange={handleManagerSelect}
 					>
-						<option selected disabled hidden>
-							Select Manager
-						</option>
 						{displayManagers()}
 					</select>
 				</div>
