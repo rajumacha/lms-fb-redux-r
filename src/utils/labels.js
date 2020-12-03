@@ -6,6 +6,7 @@ export const labels = {
 	NEW_CUSTOMER: "New Customer",
 	ADMIN: "ADMIN",
 	LMS_USER: "LMS_USER",
+	MANAGER: "MANAGER",
 	NEW_AREA: "New Area",
 	ADD_AREA: "Add Area",
 	NEW_PERMISSION: "New Permission",

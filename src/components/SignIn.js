@@ -13,6 +13,7 @@ import "./styles/signin.styles.scss";
 function SignIn({
 	history,
 	users,
+	managers,
 	roles,
 	setCurUserAction,
 	setLoginStatusAction,
@@ -22,6 +23,7 @@ function SignIn({
 	const [password, setPassword] = useState(null);
 	const [role, setRole] = useState("");
 	const [error, setError] = useState(null);
+	const [user, setUser] = useState("null");
 
 	useEffect(() => {
 		getRolesAction();
@@ -31,12 +33,26 @@ function SignIn({
 		e.preventDefault();
 
 		let msg = "Credentials Are Not Valid!!!";
-		let usr = users.find(
-			(usr) =>
-				usr.password === password && usr.userName === name && usr.role === role
-		);
-		if (usr) {
-			setCurUserAction({ id: usr.id, name, role });
+
+		let user = null;
+		console.log(role);
+		if (role === labels.ADMIN || role === labels.LMS_USER) {
+			user = users.find(
+				(usr) =>
+					usr.password === password &&
+					usr.userName === name &&
+					usr.role === role
+			);
+		} else if (role === labels.MANAGER) {
+			user = managers.find(
+				(mng) =>
+					mng.managerName == name &&
+					mng.password === password &&
+					mng.role === role
+			);
+		}
+		if (user) {
+			setCurUserAction({ id: user.id, name, role });
 			setLoginStatusAction(true);
 			history.push("/");
 		} else {
@@ -107,9 +123,14 @@ function SignIn({
 	);
 }
 
-const mapStateToProps = ({ users: { all_users: users }, roles }) => {
+const mapStateToProps = ({
+	users: { all_users: users },
+	managers: { all_managers: managers },
+	roles,
+}) => {
 	return {
 		users,
+		managers,
 		roles,
 	};
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./styles/admin-links-styles.scss";
+import "../styles/admin-links-styles.scss";
 
 export default function AdminLinks() {
 	return (

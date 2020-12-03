@@ -1,22 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import { labels } from "../utils/labels";
-import AdminLinks from "./AdminLinks";
-import NonAdminLinks from "./NonAdminLinks";
+import AdminLinks from "./RolebasedLinks/AdminLinks";
+import ManagerLinks from "./RolebasedLinks/ManagerLinks";
+import UserLinks from "./RolebasedLinks/UserLinks";
 import "./styles/sidebar-styles.scss";
 
+function displayLinks(roleName) {
+	switch (roleName) {
+		case labels.ADMIN:
+			return <AdminLinks />;
+		case labels.MANAGER:
+			return <ManagerLinks />;
+		case labels.LMS_USER:
+			return <UserLinks />;
+		default:
+			return;
+	}
+}
+
 function SideNav({ role }) {
-	return (
-		<>
-			{role === labels.ADMIN ? (
-				<AdminLinks />
-			) : role === labels.LMS_USER ? (
-				<NonAdminLinks />
-			) : (
-				""
-			)}
-		</>
-	);
+	return <>{displayLinks(role)}</>;
 }
 
 const mapStateToProps = ({ curUser }) => {

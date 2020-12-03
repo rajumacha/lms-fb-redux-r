@@ -3,9 +3,9 @@ import React from "react";
 export default function SummaryReport({ results }) {
 	return (
 		<div>
-			<h5>
+			<h6>
 				<u>Summary: </u>
-			</h5>
+			</h6>
 			<h6>
 				Total Customers <span>{results.length}</span>
 			</h6>

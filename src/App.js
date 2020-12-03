@@ -8,6 +8,7 @@ import Error from "./components/Error";
 import AddCustomer from "./components/Customer/AddCustomer";
 import ListCustomers from "./components/Customer/ListCustomers";
 import { getUsersAction } from "./redux/actions/UsersAction";
+import { getManagersAction } from "./redux/actions/ManagersAction";
 import SideNav from "./components/SideNav";
 import "./App.css";
 import Area from "./components/Admin/Area";
@@ -17,10 +18,13 @@ import Branch from "./components/Admin/Branch";
 import Manager from "./components/Admin/Manager";
 import User from "./components/Admin/User";
 import Reports from "./components/Admin/Reports";
+import CreateUserTask from "./components/User/CreateUserTask";
+import ViewUserTask from "./components/User/ViewUserTask";
 
 class App extends Component {
 	componentDidMount() {
 		this.props.getUsersAction();
+		this.props.getManagersAction();
 	}
 	render() {
 		return (
@@ -45,6 +49,8 @@ class App extends Component {
 								<Route path="/add-branch" component={Branch} />
 								<Route path="/add-manager" component={Manager} />
 								<Route path="/add-user" component={User} />
+								<Route path="/create-user-task" component={CreateUserTask} />
+								<Route path="/view-user-task" component={ViewUserTask} />
 								{/* <Route path="/reports" component={Reports} /> */}
 								<Route path="/reports" component={Reports} />
 							</>
@@ -62,6 +68,7 @@ const mapDispatchToProps = (dispatch) => {
 		getUsersAction: () => {
 			dispatch(getUsersAction());
 		},
+		getManagersAction: () => dispatch(getManagersAction()),
 	};
 };
 
